@@ -4,6 +4,7 @@ import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
+import GastoForm from './pages/GastoForm.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 /** Pantallas que exigen sesión. */
@@ -54,6 +55,22 @@ export default function App() {
           element={
             <Private>
               <Dashboard />
+            </Private>
+          }
+        />
+        <Route
+          path="/gastos/nuevo"
+          element={
+            <Private>
+              <GastoForm />
+            </Private>
+          }
+        />
+        <Route
+          path="/gastos/:id/editar"
+          element={
+            <Private>
+              <GastoForm />
             </Private>
           }
         />

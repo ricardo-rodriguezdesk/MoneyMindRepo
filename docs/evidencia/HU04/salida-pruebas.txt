@@ -1,0 +1,20 @@
+▶ HU04 · Gestión de gastos
+  ✔ Paso 1 · cuenta sin gastos → la lista viene vacía (la app muestra el mensaje guía) (384.755813ms)
+  ✔ Paso 2 · gasto válido → aparece en la lista en menos de 2 segundos (374.039367ms)
+  ✔ Paso 3 · sin monto → "Ingresa un monto" y no guarda (354.047759ms)
+  ✔ Paso 4 · fecha anterior → se guarda con la fecha elegida (363.465559ms)
+  ✔ Paso 5 · editar un gasto → el cambio se ve en la lista del dashboard (359.143475ms)
+  ✔ Paso 6 · eliminar un gasto → desaparece de la lista (382.170858ms)
+  ✔ Paso 7 · cancelar la eliminación → el gasto sigue ahí (no se llama a DELETE) (374.552803ms)
+  ✔ Dashboard · muestra los últimos 10, del más reciente al más antiguo (403.410238ms)
+  ✔ Validaciones · monto cero/negativo, descripción vacía y fecha futura (362.560148ms)
+  ✔ Seguridad · un usuario no ve ni modifica los gastos de otro, y sin sesión no hay acceso (708.14522ms)
+✔ HU04 · Gestión de gastos (4146.785951ms)
+ℹ tests 10
+ℹ suites 1
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4818.337983
