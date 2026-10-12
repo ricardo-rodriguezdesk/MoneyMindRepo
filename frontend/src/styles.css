@@ -153,3 +153,19 @@ body {
   background: #eef2f7;
   color: var(--navy);
 }
+
+.notice {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #effaf5;
+  border: 1px solid #b7e7d3;
+  color: var(--ok);
+  font-size: 14px;
+  font-weight: 600;
+}
+.link-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}

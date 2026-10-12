@@ -1,0 +1,8 @@
+[correo simulado]Para: ana.torres@ejemplo.com
+Asunto: Restablece tu contraseña de MoneyMind
+Hola Ana,
+
+Para crear una nueva contraseña entra a este enlace (vale 30 minutos):
+http://127.0.0.1:5173/restablecer?token=306e06568763001fec8c6b760bb5340fd817499097f8eb42a97478eddcb71b7f
+
+Si no lo pediste tú, ignora este correo.

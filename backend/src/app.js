@@ -1,12 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import { authRoutes } from './routes/auth.js';
+import { passwordRoutes } from './routes/password.js';
 
 /**
  * Construye la app de Express. Recibe sus dependencias (db, mailer)
  * para poder probarla sin levantar el servidor.
  */
-export function createApp({ db }) {
+export function createApp({ db, mailer }) {
   const app = express();
   app.use(cors());
   app.use(express.json());
@@ -21,6 +22,7 @@ export function createApp({ db }) {
   });
 
   app.use('/api/auth', authRoutes({ db }));
+  app.use('/api/auth', passwordRoutes({ db, mailer }));
 
   // Manejo de errores no controlados
   // eslint-disable-next-line no-unused-vars

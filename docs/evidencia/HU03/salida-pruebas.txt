@@ -1,0 +1,21 @@
+▶ HU03 · Recuperar contraseña
+  ✔ Paso 1 · correo registrado → llega el correo con el enlace (437.506953ms)
+  ✔ Paso 2 · correo no registrado → mensaje genérico, sin confirmar si existe (398.173007ms)
+  ✔ Paso 3 · enlace vigente + nueva contraseña → se actualiza y puede iniciar sesión con ella (1361.124418ms)
+  ✔ Paso 4 · enlace vencido (se fuerza la expiración) → "Este enlace ha expirado" y no permite el cambio (710.126462ms)
+  ✔ Verificación · vigencia del enlace = 30 minutos (373.870628ms)
+  ✔ Extra · el enlace solo sirve una vez y solo el más reciente funciona (697.609128ms)
+  ✔ Extra · contraseña nueva que no cumple las reglas → 422 y el enlace sigue vigente (429.018695ms)
+  ✔ Extra · en la BD solo se guarda el hash del token, no el token (352.089982ms)
+  ✔ Extra · correo con formato inválido → 422 y no envía nada (351.830332ms)
+Fallo al enviar el correo de recuperación: SMTP caído
+  ✔ Extra · si falla el envío del correo → 503 y no queda un enlace activo (764.435019ms)
+✔ HU03 · Recuperar contraseña (5958.055419ms)
+ℹ tests 10
+ℹ suites 1
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6605.541441

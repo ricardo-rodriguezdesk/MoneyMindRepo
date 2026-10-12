@@ -2,6 +2,8 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider, useAuth } from './auth.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 /** Pantallas que exigen sesión. */
@@ -38,6 +40,15 @@ export default function App() {
             </Public>
           }
         />
+        <Route
+          path="/recuperar"
+          element={
+            <Public>
+              <ForgotPassword />
+            </Public>
+          }
+        />
+        <Route path="/restablecer" element={<ResetPassword />} />
         <Route
           path="/dashboard"
           element={
