@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { validators } from '../lib/validators.js';
+import Hero from '../components/Hero.jsx';
+import Stepper from '../components/Stepper.jsx';
 import TextField from '../components/TextField.jsx';
+import { ArrowLeftIcon, ArrowRightIcon, MailIcon } from '../components/icons.jsx';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -28,11 +31,15 @@ export default function ForgotPassword() {
   }
 
   return (
-    <main className="screen">
-      <form className="card" onSubmit={handleSubmit} noValidate>
-        <div className="logo">MoneyMind</div>
-        <h1 className="title">Recuperar contraseña</h1>
-        <p className="muted">Escribe tu correo y te enviaremos un enlace válido por 30 minutos.</p>
+    <main className="phone">
+      <Hero illustration="envelope" tagline="Tus finanzas, un mejor tú" back="/login" />
+      <form className="screen-body" onSubmit={handleSubmit} noValidate>
+        <Stepper step={1} />
+        <h1 className="title">Recupera tu contraseña</h1>
+        <p className="subtitle">
+          Te enviaremos un enlace a tu correo electrónico para que puedas restablecer tu contraseña.
+          Vale 30 minutos.
+        </p>
 
         {sent ? (
           <p className="notice" role="status">
@@ -41,10 +48,12 @@ export default function ForgotPassword() {
         ) : (
           <>
             <TextField
-              label="Correo"
+              label="Correo electrónico"
               name="email"
               type="email"
               autoComplete="email"
+              icon={<MailIcon />}
+              placeholder="tucorreo@ejemplo.com"
               value={email}
               onChange={(e) => {
                 setEmail(e.target.value);
@@ -53,12 +62,15 @@ export default function ForgotPassword() {
               error={error}
             />
             <button className="btn" type="submit" disabled={sending}>
-              {sending ? 'Enviando…' : 'Enviar'}
+              {sending ? 'Enviando…' : 'Enviar enlace'}
+              {!sending && <ArrowRightIcon size={18} />}
             </button>
           </>
         )}
-        <p className="muted center">
-          <Link to="/login">Volver a iniciar sesión</Link>
+        <p className="back-link">
+          <Link to="/login">
+            <ArrowLeftIcon size={18} /> Volver al inicio de sesión
+          </Link>
         </p>
       </form>
     </main>

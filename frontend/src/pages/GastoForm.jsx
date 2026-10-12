@@ -1,9 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { todayISO } from '../lib/format.js';
 import { useAuth } from '../auth.jsx';
+import Hero from '../components/Hero.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 import TextField from '../components/TextField.jsx';
+import {
+  ArrowRightIcon,
+  CalendarIcon,
+  DocIcon,
+  DollarIcon,
+  TagIcon,
+} from '../components/icons.jsx';
 
 /** Crear ("Nuevo gasto") y editar un gasto con el mismo formulario. */
 export default function GastoForm() {
@@ -56,40 +65,55 @@ export default function GastoForm() {
   }
 
   return (
-    <main className="screen">
-      <form className="card" onSubmit={handleSubmit} noValidate>
-        <div className="form-head">
-          <Link className="back" to="/dashboard" aria-label="Cerrar">
-            ✕
-          </Link>
-          <h1 className="title no-top">{editing ? 'Editar gasto' : 'Nuevo gasto'}</h1>
-        </div>
-
+    <main className="phone with-nav">
+      <Hero
+        illustration="receipt"
+        tagline="Registra tus gastos de forma simple."
+        back="/dashboard"
+        title={editing ? 'Editar gasto' : 'Nuevo gasto'}
+      />
+      <form className="screen-body sheet" onSubmit={handleSubmit} noValidate>
         {loading ? (
-          <p className="muted">Cargando…</p>
+          <p className="subtitle">Cargando…</p>
         ) : (
           <>
             <TextField
-              label="¿En qué gastaste?"
+              label="Descripción"
               name="descripcion"
+              icon={<DocIcon />}
               placeholder="Ej. tacos con amigos"
               value={values.descripcion}
               onChange={handleChange}
               error={errors.descripcion}
             />
             <TextField
-              label={`Monto (${user?.moneda ?? 'MXN'})`}
+              label="Monto"
               name="monto"
               inputMode="decimal"
+              icon={<DollarIcon />}
+              right={<span className="suffix">{user?.moneda ?? 'MXN'}</span>}
               placeholder="0.00"
               value={values.monto}
               onChange={handleChange}
               error={errors.monto}
             />
+            <div className="field">
+              <label htmlFor="categoria">Categoría</label>
+              <div className="input-wrap disabled">
+                <span className="input-icon">
+                  <TagIcon />
+                </span>
+                <select id="categoria" disabled value="otros">
+                  <option value="otros">Otros</option>
+                </select>
+              </div>
+              <p className="hint">La IA sugerirá la categoría automáticamente muy pronto.</p>
+            </div>
             <TextField
               label="Fecha"
               name="fecha"
               type="date"
+              icon={<CalendarIcon />}
               max={todayISO()}
               value={values.fecha}
               onChange={handleChange}
@@ -102,10 +126,12 @@ export default function GastoForm() {
             )}
             <button className="btn" type="submit" disabled={sending}>
               {sending ? 'Guardando…' : 'Guardar'}
+              {!sending && <ArrowRightIcon size={18} />}
             </button>
           </>
         )}
       </form>
+      <BottomNav />
     </main>
   );
 }

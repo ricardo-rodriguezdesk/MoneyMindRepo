@@ -2,7 +2,22 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { validators } from '../lib/validators.js';
-import TextField from '../components/TextField.jsx';
+import Hero from '../components/Hero.jsx';
+import Stepper from '../components/Stepper.jsx';
+import { PasswordField } from '../components/TextField.jsx';
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  CheckIcon,
+  ClockIcon,
+  LockIcon,
+} from '../components/icons.jsx';
+
+const RULES = [
+  { label: 'Mínimo 8 caracteres', test: (p) => p.length >= 8 },
+  { label: 'Incluye una letra', test: (p) => /[A-Za-z]/.test(p) },
+  { label: 'Incluye un número', test: (p) => /\d/.test(p) },
+];
 
 export default function ResetPassword() {
   const [params] = useSearchParams();
@@ -11,7 +26,8 @@ export default function ResetPassword() {
   const [linkState, setLinkState] = useState('checking'); // checking | ok | expired | invalid
   const [linkMessage, setLinkMessage] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
 
   // Al abrir el enlace se revisa si sigue vigente
@@ -26,9 +42,12 @@ export default function ResetPassword() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    setError('');
+    const nextErrors = {};
     const passwordError = validators.password(password);
-    if (passwordError) return setError(passwordError);
+    if (passwordError) nextErrors.password = passwordError;
+    if (confirm !== password) nextErrors.confirm = 'Las contraseñas no coinciden';
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) return;
 
     setSending(true);
     try {
@@ -39,53 +58,93 @@ export default function ResetPassword() {
         setLinkState(err.status === 410 ? 'expired' : 'invalid');
         setLinkMessage(err.message);
       } else {
-        setError(err.errors?.password ?? err.message);
+        setErrors({ password: err.errors?.password ?? err.message });
       }
     } finally {
       setSending(false);
     }
   }
 
+  const blocked = linkState === 'expired' || linkState === 'invalid';
+
   return (
-    <main className="screen">
-      <form className="card" onSubmit={handleSubmit} noValidate>
-        <div className="logo">MoneyMind</div>
-        <h1 className="title">Nueva contraseña</h1>
+    <main className="phone">
+      <Hero illustration="lock" tagline="Tus finanzas, un mejor tú" back="/login" />
+      <form className="screen-body" onSubmit={handleSubmit} noValidate>
+        <Stepper step={2} />
+        <h1 className="title">Crea una nueva contraseña</h1>
 
-        {linkState === 'checking' && <p className="muted">Revisando tu enlace…</p>}
+        {linkState === 'checking' && <p className="subtitle">Revisando tu enlace…</p>}
 
-        {(linkState === 'expired' || linkState === 'invalid') && (
-          <>
-            <p className="form-error" role="alert">
-              {linkMessage}
-            </p>
-            <p className="muted">No se puede cambiar la contraseña con este enlace.</p>
-            <Link className="btn link-btn" to="/recuperar">
-              Solicitar un enlace nuevo
-            </Link>
-          </>
+        {blocked && (
+          <div className="alert warn" role="alert">
+            <span className="alert-icon">
+              <ClockIcon />
+            </span>
+            <div>
+              <strong>{linkMessage}</strong>
+              <p>
+                {linkState === 'expired'
+                  ? 'Este enlace ha expirado, solicita uno nuevo.'
+                  : 'No se puede cambiar la contraseña con este enlace, solicita uno nuevo.'}
+              </p>
+              <Link className="btn outline" to="/recuperar">
+                Solicitar un nuevo enlace
+              </Link>
+            </div>
+          </div>
         )}
 
         {linkState === 'ok' && (
           <>
-            <p className="muted">Elige una contraseña nueva para tu cuenta.</p>
-            <TextField
+            <p className="subtitle">
+              Tu nueva contraseña debe ser segura y diferente a las anteriores.
+            </p>
+            <PasswordField
               label="Nueva contraseña"
               name="password"
-              type="password"
               autoComplete="new-password"
+              icon={<LockIcon />}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                setError('');
+                setErrors({});
               }}
-              error={error}
+              error={errors.password}
+            />
+            <ul className="rules">
+              {RULES.map((rule) => (
+                <li key={rule.label} className={rule.test(password) ? 'ok' : ''}>
+                  <span className="rule-dot">
+                    <CheckIcon size={11} />
+                  </span>
+                  {rule.label}
+                </li>
+              ))}
+            </ul>
+            <PasswordField
+              label="Confirmar nueva contraseña"
+              name="confirm"
+              autoComplete="new-password"
+              icon={<LockIcon />}
+              value={confirm}
+              onChange={(e) => {
+                setConfirm(e.target.value);
+                setErrors({});
+              }}
+              error={errors.confirm}
             />
             <button className="btn" type="submit" disabled={sending}>
-              {sending ? 'Guardando…' : 'Guardar contraseña'}
+              {sending ? 'Guardando…' : 'Actualizar contraseña'}
+              {!sending && <ArrowRightIcon size={18} />}
             </button>
           </>
         )}
+        <p className="back-link">
+          <Link to="/login">
+            <ArrowLeftIcon size={18} /> Volver al inicio de sesión
+          </Link>
+        </p>
       </form>
     </main>
   );

@@ -3,7 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { validators, MONEDAS } from '../lib/validators.js';
 import { useAuth } from '../auth.jsx';
-import TextField from '../components/TextField.jsx';
+import Hero from '../components/Hero.jsx';
+import TextField, { PasswordField } from '../components/TextField.jsx';
+import { ArrowRightIcon, DollarIcon, LockIcon, MailIcon, UserIcon } from '../components/icons.jsx';
 
 const EMPTY = { nombre: '', email: '', password: '', moneda: 'MXN' };
 
@@ -15,7 +17,6 @@ export default function Register() {
   const [serverErrors, setServerErrors] = useState({});
   const [formError, setFormError] = useState('');
   const [sending, setSending] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const localErrors = {
     nombre: validators.nombre(values.nombre),
@@ -53,16 +54,18 @@ export default function Register() {
   }
 
   return (
-    <main className="screen">
-      <form className="card" onSubmit={handleSubmit} noValidate>
-        <div className="logo">MoneyMind</div>
-        <h1 className="title">Crear cuenta</h1>
-        <p className="muted">Empieza a controlar tus gastos en un minuto.</p>
+    <main className="phone">
+      <Hero illustration="chart" tagline="Tus finanzas, un mejor tú" />
+      <form className="screen-body" onSubmit={handleSubmit} noValidate>
+        <h1 className="title">Crea tu cuenta</h1>
+        <p className="subtitle">Empieza a controlar tus gastos en un minuto.</p>
 
         <TextField
           label="Nombre"
           name="nombre"
           autoComplete="name"
+          icon={<UserIcon />}
+          placeholder="Tu nombre"
           value={values.nombre}
           onChange={handleChange}
           onBlur={handleBlur}
@@ -70,45 +73,45 @@ export default function Register() {
           valid={isValid('nombre')}
         />
         <TextField
-          label="Correo"
+          label="Correo electrónico"
           name="email"
           type="email"
           autoComplete="email"
+          icon={<MailIcon />}
+          placeholder="tucorreo@ejemplo.com"
           value={values.email}
           onChange={handleChange}
           onBlur={handleBlur}
           error={errorOf('email')}
           valid={isValid('email')}
         />
-        <TextField
+        <PasswordField
           label="Contraseña"
           name="password"
-          type={showPassword ? 'text' : 'password'}
           autoComplete="new-password"
+          icon={<LockIcon />}
+          placeholder="Mínimo 8 caracteres"
           value={values.password}
           onChange={handleChange}
           onBlur={handleBlur}
           error={errorOf('password')}
           valid={isValid('password')}
         />
-        <label className="check">
-          <input
-            type="checkbox"
-            checked={showPassword}
-            onChange={(e) => setShowPassword(e.target.checked)}
-          />
-          Mostrar contraseña
-        </label>
 
         <div className="field">
           <label htmlFor="moneda">Moneda</label>
-          <select id="moneda" name="moneda" value={values.moneda} onChange={handleChange}>
-            {MONEDAS.map((m) => (
-              <option key={m.code} value={m.code}>
-                {m.label}
-              </option>
-            ))}
-          </select>
+          <div className="input-wrap">
+            <span className="input-icon">
+              <DollarIcon />
+            </span>
+            <select id="moneda" name="moneda" value={values.moneda} onChange={handleChange}>
+              {MONEDAS.map((m) => (
+                <option key={m.code} value={m.code}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {formError && (
@@ -118,8 +121,13 @@ export default function Register() {
         )}
         <button className="btn" type="submit" disabled={sending}>
           {sending ? 'Creando cuenta…' : 'Crear cuenta'}
+          {!sending && <ArrowRightIcon size={18} />}
         </button>
-        <p className="muted center">
+
+        <div className="divider">
+          <span>o</span>
+        </div>
+        <p className="switch">
           ¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link>
         </p>
       </form>

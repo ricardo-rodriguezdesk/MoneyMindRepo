@@ -3,7 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { formatDate, formatMoney } from '../lib/format.js';
 import { useAuth } from '../auth.jsx';
+import BottomNav from '../components/BottomNav.jsx';
 import ConfirmDialog from '../components/ConfirmDialog.jsx';
+import Hero from '../components/Hero.jsx';
+import {
+  ArrowRightIcon,
+  CategoryIcon,
+  LogoutIcon,
+  PencilIcon,
+  TrashIcon,
+} from '../components/icons.jsx';
 
 // Dashboard: últimos 10 gastos (HU04). HU06 agrega el total del mes y el desglose por categoría.
 export default function Dashboard() {
@@ -49,70 +58,88 @@ export default function Dashboard() {
   }
 
   return (
-    <main className="dash">
-      <header className="dash-top">
-        <div>
-          <h1>Hola, {user?.nombre?.split(' ')[0]} 👋</h1>
-          <p>Tus gastos recientes</p>
-        </div>
-        <button className="link-button" type="button" onClick={handleLogout}>
-          Cerrar sesión
-        </button>
-      </header>
+    <main className="phone with-nav">
+      <Hero
+        illustration="receipt"
+        title="Gastos"
+        tagline={`Hola, ${user?.nombre?.split(' ')[0]}. Mantén el control de tus gastos.`}
+        action={
+          <button
+            className="hero-icon"
+            type="button"
+            onClick={handleLogout}
+            aria-label="Cerrar sesión"
+            title="Cerrar sesión"
+          >
+            <LogoutIcon />
+          </button>
+        }
+      />
 
-      <section className="dash-body">
-        <div className="section-head">
-          <h2>Movimientos recientes</h2>
-          <Link className="btn small" to="/gastos/nuevo">
-            + Nuevo gasto
-          </Link>
-        </div>
-
+      <section className="screen-body list-body">
         {error && (
           <p className="form-error" role="alert">
             {error}
           </p>
         )}
-        {loading && <p className="muted">Cargando…</p>}
+        {loading && <p className="subtitle">Cargando…</p>}
 
         {!loading && gastos.length === 0 && !error && (
           <div className="empty">
-            <div className="empty-icon">🧾</div>
-            <h3>Aún no tienes gastos</h3>
-            <p className="muted">Registra el primero y empieza a ver a dónde se va tu dinero.</p>
+            <div className="empty-art">
+              <Hero.Receipt />
+            </div>
+            <h2>Aún no tienes gastos, registra el primero.</h2>
+            <p className="subtitle">
+              Comienza a registrar tus gastos para llevar un mejor control de tus finanzas.
+            </p>
             <Link className="btn" to="/gastos/nuevo">
-              Nuevo gasto
+              Nuevo gasto <ArrowRightIcon size={18} />
             </Link>
           </div>
         )}
 
+        {gastos.length > 0 && <h2 className="list-title">Recientes</h2>}
         <ul className="gasto-list">
           {gastos.map((gasto) => (
             <li className="gasto" key={gasto.id}>
-              <span className="dot" style={{ background: gasto.categoria.color }} />
+              <span
+                className="gasto-icon"
+                style={{ background: `${gasto.categoria.color}26`, color: gasto.categoria.color }}
+              >
+                <CategoryIcon name={gasto.categoria.icono} size={22} />
+              </span>
               <div className="gasto-info">
                 <strong>{gasto.descripcion}</strong>
-                <span className="muted">
-                  {gasto.categoria.nombre} · {formatDate(gasto.fecha)}
-                </span>
+                <span>{gasto.categoria.nombre}</span>
+                <span>{formatDate(gasto.fecha)}</span>
               </div>
-              <span className="gasto-monto">-{formatMoney(gasto.monto, user?.moneda)}</span>
-              <div className="gasto-actions">
-                <Link to={`/gastos/${gasto.id}/editar`} aria-label={`Editar ${gasto.descripcion}`}>
-                  Editar
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => setToDelete(gasto)}
-                  aria-label={`Eliminar ${gasto.descripcion}`}
-                >
-                  Eliminar
-                </button>
+              <div className="gasto-right">
+                <span className="gasto-monto">- {formatMoney(gasto.monto, user?.moneda)}</span>
+                <div className="gasto-actions">
+                  <Link
+                    className="icon-btn"
+                    to={`/gastos/${gasto.id}/editar`}
+                    aria-label={`Editar ${gasto.descripcion}`}
+                  >
+                    <PencilIcon size={16} />
+                  </Link>
+                  <button
+                    className="icon-btn danger"
+                    type="button"
+                    onClick={() => setToDelete(gasto)}
+                    aria-label={`Eliminar ${gasto.descripcion}`}
+                  >
+                    <TrashIcon size={16} />
+                  </button>
+                </div>
               </div>
             </li>
           ))}
         </ul>
       </section>
+
+      <BottomNav />
 
       {toDelete && (
         <ConfirmDialog

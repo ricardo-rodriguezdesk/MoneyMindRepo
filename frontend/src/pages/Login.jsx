@@ -3,7 +3,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { validators } from '../lib/validators.js';
 import { useAuth } from '../auth.jsx';
-import TextField from '../components/TextField.jsx';
+import Hero from '../components/Hero.jsx';
+import TextField, { PasswordField } from '../components/TextField.jsx';
+import { AlertIcon, ArrowRightIcon, LockIcon, MailIcon } from '../components/icons.jsx';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -45,11 +47,11 @@ export default function Login() {
   }
 
   return (
-    <main className="screen">
-      <form className="card" onSubmit={handleSubmit} noValidate>
-        <div className="logo">MoneyMind</div>
-        <h1 className="title">Iniciar sesión</h1>
-        <p className="muted">Qué bueno verte de nuevo.</p>
+    <main className="phone">
+      <Hero illustration="chart" tagline="Tus finanzas, un mejor tú" />
+      <form className="screen-body" onSubmit={handleSubmit} noValidate>
+        <h1 className="title">Bienvenido de vuelta</h1>
+        <p className="subtitle">Inicia sesión para continuar con tus finanzas en MoneyMind</p>
         {notice && (
           <p className="notice" role="status">
             {notice}
@@ -57,19 +59,21 @@ export default function Login() {
         )}
 
         <TextField
-          label="Correo"
+          label="Correo electrónico"
           name="email"
           type="email"
           autoComplete="email"
+          icon={<MailIcon />}
+          placeholder="tucorreo@ejemplo.com"
           value={values.email}
           onChange={handleChange}
           error={errors.email}
         />
-        <TextField
+        <PasswordField
           label="Contraseña"
           name="password"
-          type="password"
           autoComplete="current-password"
+          icon={<LockIcon />}
           value={values.password}
           onChange={handleChange}
           error={errors.password}
@@ -79,15 +83,23 @@ export default function Login() {
         </p>
 
         {formError && (
-          <p className="form-error" role="alert">
-            {formError}
-          </p>
+          <div className="alert error" role="alert">
+            <span className="alert-icon">
+              <AlertIcon />
+            </span>
+            <span className="form-error-text">{formError}</span>
+          </div>
         )}
         <button className="btn" type="submit" disabled={sending}>
           {sending ? 'Entrando…' : 'Iniciar sesión'}
+          {!sending && <ArrowRightIcon size={18} />}
         </button>
-        <p className="muted center">
-          ¿Aún no tienes cuenta? <Link to="/registro">Crear cuenta</Link>
+
+        <div className="divider">
+          <span>o</span>
+        </div>
+        <p className="switch">
+          ¿Aún no tienes una cuenta? <Link to="/registro">Crear cuenta</Link>
         </p>
       </form>
     </main>
