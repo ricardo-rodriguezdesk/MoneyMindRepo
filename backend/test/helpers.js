@@ -38,6 +38,7 @@ export async function cleanTables(db) {
   for (const table of ['tokens_recuperacion', 'alertas', 'presupuestos', 'gastos', 'usuarios']) {
     await db.query(`TRUNCATE TABLE ${table}`);
   }
+  await db.query('DELETE FROM categorias WHERE es_predefinida = FALSE');
   await db.query('SET FOREIGN_KEY_CHECKS = 1');
 }
 
