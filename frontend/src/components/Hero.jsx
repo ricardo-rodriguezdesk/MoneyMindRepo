@@ -116,12 +116,16 @@ const ILLUSTRATIONS = {
  * Encabezado azul con onda, logo, lema e ilustración.
  * back: ruta del botón "←"; title: título centrado de la barra superior; action: botón a la derecha.
  */
-export default function Hero({ illustration = 'chart', tagline, back, title, action }) {
+export default function Hero({ illustration = 'chart', tagline, back, onBack, title, action }) {
   return (
     <header className="hero">
       {(back || title || action) && (
         <div className="hero-bar">
-          {back ? (
+          {onBack ? (
+            <button className="hero-icon" type="button" onClick={onBack} aria-label="Volver">
+              <ArrowLeftIcon />
+            </button>
+          ) : back ? (
             <Link className="hero-icon" to={back} aria-label="Volver">
               <ArrowLeftIcon />
             </Link>

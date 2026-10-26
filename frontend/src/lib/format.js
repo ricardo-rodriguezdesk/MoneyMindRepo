@@ -32,3 +32,11 @@ export function formatVariation(value) {
   const sign = value > 0 ? '+' : value < 0 ? '−' : '';
   return `${sign}${Math.abs(value).toFixed(1)} %`;
 }
+
+/** Por debajo de este porcentaje la sugerencia de la IA se resalta para que el usuario la revise. */
+export const CONFIANZA_MINIMA = 70;
+
+/** 0.856 → 86 (porcentaje entero, como se muestra en pantalla) */
+export function porcentajeConfianza(confianza) {
+  return Math.round(Number(confianza) * 100);
+}

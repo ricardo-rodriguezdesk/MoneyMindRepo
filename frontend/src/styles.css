@@ -851,3 +851,119 @@ body {
   font-size: 22px;
   color: var(--navy);
 }
+
+/* HU05B · categoría sugerida por la IA, elegir y crear categoría */
+.resumen-gasto {
+  margin-top: 8px;
+  font-size: 16px;
+  color: var(--ink);
+}
+.sugerida-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+}
+.sugerida-card.baja {
+  border-color: #e08a3c;
+  background: #fff6ec;
+}
+.sugerida-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sugerida-info strong {
+  font-size: 18px;
+}
+.sugerida-info span {
+  font-size: 14px;
+  color: var(--mute);
+}
+.confianza {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0b5f44;
+  background: #e4f6ee;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.sugerida-card.baja .confianza {
+  color: #8a3b00;
+  background: #fde3c8;
+}
+.aviso-revisar,
+.aviso-ia {
+  margin-top: 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #8a3b00;
+  background: #fff6ec;
+  border: 1.5px solid #e08a3c;
+  border-radius: 12px;
+}
+.aviso-ia {
+  margin: 0 0 12px;
+}
+.aviso-guardado {
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0b5f44;
+  background: #e4f6ee;
+  border-radius: 12px;
+}
+.cat-lista {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cat-opcion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+}
+.cat-opcion.elegida {
+  border-color: var(--green);
+  background: #f0fbf6;
+}
+.cat-opcion .cat-nombre {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+}
+.etiqueta {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--purple);
+  background: #ece8fb;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+.btn.outline-verde {
+  background: none;
+  color: var(--green);
+  border: 1.5px solid var(--green);
+  box-shadow: none;
+  height: 48px;
+  font-size: 16px;
+  margin-top: 16px;
+}
