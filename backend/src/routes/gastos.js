@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { validateGasto } from '../validators.js';
 import { requireAuth } from '../middleware/requireAuth.js';
+import { categoriasDeGasto } from '../categorias.js';
 
 const NO_EXISTE = 'El gasto ya no existe';
 
@@ -18,11 +19,17 @@ function toGasto(row) {
       color: row.color_hex,
     },
     creadoEn: row.creado_en,
+    ia: {
+      sugeridaId: row.categoria_sugerida_ia,
+      confianza: row.confianza_ia === null ? null : Number(row.confianza_ia),
+      corregido: Boolean(row.fue_corregido),
+    },
   };
 }
 
 const SELECT_GASTO = `
   SELECT g.id_gasto, g.descripcion, g.monto, g.fecha_gasto, g.creado_en,
+         g.categoria_sugerida_ia, g.confianza_ia, g.fue_corregido,
          c.id_categoria, c.nombre AS categoria, c.icono, c.color_hex
     FROM gastos g
     JOIN categorias c ON c.id_categoria = g.id_categoria`;
@@ -80,14 +87,43 @@ export function gastosRoutes({ db }) {
       if (Object.keys(errors).length > 0) {
         return res.status(422).json({ message: Object.values(errors)[0], errors });
       }
-      // Hasta HU05 (categorización con IA) todo gasto se guarda en la categoría "Otros"
-      const [cat] = await db.query(
-        "SELECT id_categoria FROM categorias WHERE nombre = 'Otros' AND es_predefinida = TRUE"
-      );
+      const permitidas = await categoriasDeGasto(db, req.user.id_usuario);
+      const esPermitida = (id) => permitidas.some((c) => c.id === Number(id));
+      const { idCategoria, sugerencia } = req.body ?? {};
+
+      // Lo que la IA sugirió (si la app lo manda) se guarda siempre, aunque el usuario lo cambie
+      let sugeridaId = null;
+      let confianza = null;
+      if (sugerencia) {
+        const c = Number(sugerencia.confianza);
+        if (!esPermitida(sugerencia.idCategoria) || !(c >= 0 && c <= 1)) {
+          return res.status(422).json({ message: 'La categoría sugerida no es válida' });
+        }
+        sugeridaId = Number(sugerencia.idCategoria);
+        confianza = c;
+      }
+      if (idCategoria !== undefined && !esPermitida(idCategoria)) {
+        return res.status(422).json({ message: 'La categoría no es válida' });
+      }
+      // Categoría final: la que eligió el usuario, o la sugerida, o "Otros" si no hubo sugerencia
+      const otros = permitidas.find((c) => c.nombre === 'Otros' && !c.personalizada);
+      const final = idCategoria !== undefined ? Number(idCategoria) : (sugeridaId ?? otros.id);
+      const fueCorregido = sugeridaId !== null && final !== sugeridaId;
+
       const [result] = await db.query(
-        `INSERT INTO gastos (id_usuario, id_categoria, monto, descripcion, fecha_gasto)
-         VALUES (?, ?, ?, ?, ?)`,
-        [req.user.id_usuario, cat[0].id_categoria, data.monto, data.descripcion, data.fecha]
+        `INSERT INTO gastos (id_usuario, id_categoria, monto, descripcion, fecha_gasto,
+                             categoria_sugerida_ia, confianza_ia, fue_corregido)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          req.user.id_usuario,
+          final,
+          data.monto,
+          data.descripcion,
+          data.fecha,
+          sugeridaId,
+          confianza,
+          fueCorregido,
+        ]
       );
       const gasto = await findGasto(result.insertId, req.user.id_usuario);
       return res.status(201).json({ gasto });
