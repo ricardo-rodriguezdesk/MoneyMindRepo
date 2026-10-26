@@ -1,0 +1,23 @@
+npm test (backend) — ejecutado en la Mac del equipo el 26 oct 2026
+▶ HU06 · Total del mes y desglose por categoría
+  ✔ Paso 1 · usuario con gastos en el mes → el total coincide con la suma de sus gastos (478.275666ms)
+  ✔ Paso 2 · gastos en 3 categorías → el desglose sale de mayor a menor con su porcentaje (470.307708ms)
+  ✔ Paso 2b · varios gastos de una misma categoría se suman en una sola fila (467.771834ms)
+  ✔ Paso 3 · registrar un gasto nuevo y volver a pedir el resumen → total y desglose cambian solos (476.949791ms)
+  ✔ Paso 3b · eliminar un gasto → el total baja (473.116791ms)
+  ✔ Paso 4 · usuario sin gastos este mes → total en 0 y sin categorías (la app muestra el aviso) (462.333666ms)
+  ✔ Paso 5 · gasto de un mes anterior → no cuenta en el total del mes actual (467.426875ms)
+  ✔ Paso 6 · categorías de ingreso no cuentan y los gastos de otro usuario tampoco (884.695917ms)
+  ✔ Paso 7 · empate de montos → se ordena por nombre de categoría (462.983042ms)
+  ✔ Paso 8 · sin sesión iniciada → 401 (462.342375ms)
+✔ HU06 · Total del mes y desglose por categoría (5217.845792ms)
+▶ HU06 · límites del mes
+  ✔ el último día del mes y el primero del siguiente caen en meses distintos (0.162833ms)
+  ✔ diciembre pasa al enero del año siguiente (0.057375ms)
+✔ HU06 · límites del mes (0.324875ms)
+
+Resumen de toda la suite del proyecto:
+ℹ tests 44
+ℹ pass 44
+ℹ fail 0
+ℹ cancelled 0
