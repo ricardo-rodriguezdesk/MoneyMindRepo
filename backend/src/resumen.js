@@ -46,3 +46,10 @@ export async function resumenDelMes(db, idUsuario, fecha) {
     })),
   };
 }
+
+/** Un día cualquiera del mes anterior al de `fecha` ('YYYY-MM-DD'), siempre el día 1. */
+export function primerDiaMesAnterior(fecha) {
+  const [anio, mes] = fecha.split('-').map(Number);
+  const pad = (n) => String(n).padStart(2, '0');
+  return mes === 1 ? `${anio - 1}-12-01` : `${anio}-${pad(mes - 1)}-01`;
+}
