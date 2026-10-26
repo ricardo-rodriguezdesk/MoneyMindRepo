@@ -640,3 +640,93 @@ body {
   height: 50px;
   font-size: 15px;
 }
+
+/* ---------- Inicio: total del mes y desglose (HU06) ---------- */
+.resumen-total {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--white);
+  border-radius: 18px;
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px rgba(22, 50, 79, 0.06);
+}
+.resumen-label {
+  font-size: 14px;
+  color: var(--mute);
+}
+.resumen-monto {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--navy);
+}
+.resumen-rango {
+  font-size: 13px;
+  color: var(--mute);
+}
+.desglose {
+  list-style: none;
+  background: var(--white);
+  border-radius: 18px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 12px rgba(22, 50, 79, 0.06);
+}
+.desglose-fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+}
+.desglose-fila + .desglose-fila {
+  border-top: 1px solid var(--border);
+}
+.desglose-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.desglose-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.desglose-linea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.desglose-linea strong {
+  font-size: 15px;
+  color: var(--navy);
+}
+.desglose-monto {
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--navy);
+}
+.desglose-barra {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+  background: #e3ebf5;
+  overflow: hidden;
+}
+.desglose-barra i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+}
+.desglose-pct {
+  font-size: 13px;
+  color: var(--mute);
+  min-width: 42px;
+  text-align: right;
+}

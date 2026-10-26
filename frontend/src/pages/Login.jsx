@@ -37,7 +37,7 @@ export default function Login() {
     try {
       const session = await api('/auth/login', { method: 'POST', body: values });
       startSession(session);
-      navigate('/dashboard');
+      navigate('/inicio');
     } catch (err) {
       setFormError(err.message); // "Correo o contraseña incorrectos" sin decir cuál falló
       setValues((prev) => ({ ...prev, password: '' }));

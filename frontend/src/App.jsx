@@ -6,6 +6,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import GastoForm from './pages/GastoForm.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import Inicio from './pages/Inicio.jsx';
 
 /** Pantallas que exigen sesión. */
 function Private({ children }) {
@@ -18,7 +19,7 @@ function Private({ children }) {
 function Public({ children }) {
   const { user, checking } = useAuth();
   if (checking) return null;
-  return user ? <Navigate to="/dashboard" replace /> : children;
+  return user ? <Navigate to="/inicio" replace /> : children;
 }
 
 export default function App() {
@@ -50,6 +51,14 @@ export default function App() {
           }
         />
         <Route path="/restablecer" element={<ResetPassword />} />
+        <Route
+          path="/inicio"
+          element={
+            <Private>
+              <Inicio />
+            </Private>
+          }
+        />
         <Route
           path="/dashboard"
           element={

@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom';
 import { HomeIcon, ListIcon, PlusIcon, UserIcon, WalletIcon } from './icons.jsx';
 
 /** Barra inferior. Presupuestos y Perfil llegan en sprints posteriores. */
-export default function BottomNav() {
+export default function BottomNav({ active = 'gastos' }) {
   return (
     <nav className="bottom-nav" aria-label="Navegación principal">
-      <Link className="nav-item" to="/dashboard">
+      <Link className={`nav-item${active === 'inicio' ? ' active' : ''}`} to="/inicio">
         <HomeIcon size={22} />
         Inicio
       </Link>
-      <Link className="nav-item active" to="/dashboard">
+      <Link className={`nav-item${active === 'gastos' ? ' active' : ''}`} to="/dashboard">
         <ListIcon size={22} />
         Gastos
       </Link>

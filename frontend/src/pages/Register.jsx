@@ -44,7 +44,7 @@ export default function Register() {
     try {
       const session = await api('/auth/register', { method: 'POST', body: values });
       startSession(session);
-      navigate('/dashboard');
+      navigate('/inicio');
     } catch (err) {
       setServerErrors(err.errors ?? {});
       setFormError(err.status === 409 || err.status === 422 ? '' : err.message);

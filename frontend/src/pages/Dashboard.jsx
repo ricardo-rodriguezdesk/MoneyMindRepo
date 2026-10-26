@@ -14,7 +14,7 @@ import {
   TrashIcon,
 } from '../components/icons.jsx';
 
-// Dashboard: últimos 10 gastos (HU04). HU06 agrega el total del mes y el desglose por categoría.
+// Gastos: últimos 10 gastos (HU04). El total del mes y su desglose viven en Inicio (HU06).
 export default function Dashboard() {
   const { user, endSession } = useAuth();
   const navigate = useNavigate();
@@ -139,7 +139,7 @@ export default function Dashboard() {
         </ul>
       </section>
 
-      <BottomNav />
+      <BottomNav active="gastos" />
 
       {toDelete && (
         <ConfirmDialog

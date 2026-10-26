@@ -55,7 +55,7 @@ export default function GastoForm() {
         method: editing ? 'PUT' : 'POST',
         body: values,
       });
-      navigate('/dashboard');
+      navigate(editing ? '/dashboard' : '/inicio');
     } catch (err) {
       setErrors(err.errors ?? {});
       if (!err.errors || Object.keys(err.errors).length === 0) setFormError(err.message);
@@ -69,7 +69,7 @@ export default function GastoForm() {
       <Hero
         illustration="receipt"
         tagline="Registra tus gastos de forma simple."
-        back="/dashboard"
+        back={editing ? '/dashboard' : '/inicio'}
         title={editing ? 'Editar gasto' : 'Nuevo gasto'}
       />
       <form className="screen-body sheet" onSubmit={handleSubmit} noValidate>
