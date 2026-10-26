@@ -1,0 +1,13 @@
+Consulta a la base de datos después de las pruebas manuales (26 oct 2026)
+La IA se simuló en este entorno de pruebas; la prueba real con Gemini está en la evidencia de HU05A.
+
++---------------------+-----------------+-----------------------+--------------+---------------+
+| descripcion         | categoria_final | categoria_sugerida_ia | confianza_ia | fue_corregido |
++---------------------+-----------------+-----------------------+--------------+---------------+
+| Tacos al pastor     | Comida          | Comida                |        0.860 |             0 |
+| Cosas varias        | Mascotas        | Otros                 |        0.540 |             1 |
+| Croquetas del perro | Mascotas        | Mascotas              |        0.900 |             0 |
+| Pasaje setenta      | Transporte      | Transporte            |        0.700 |             0 |
+| La ia falla         | Otros           | NULL                  |         NULL |             0 |
+| Pago lento          | Comida          | Comida                |        0.860 |             0 |
++---------------------+-----------------+-----------------------+--------------+---------------+
