@@ -7,6 +7,7 @@ import ResetPassword from './pages/ResetPassword.jsx';
 import GastoForm from './pages/GastoForm.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Inicio from './pages/Inicio.jsx';
+import Reportes from './pages/Reportes.jsx';
 
 /** Pantallas que exigen sesión. */
 function Private({ children }) {
@@ -56,6 +57,14 @@ export default function App() {
           element={
             <Private>
               <Inicio />
+            </Private>
+          }
+        />
+        <Route
+          path="/reportes"
+          element={
+            <Private>
+              <Reportes />
             </Private>
           }
         />

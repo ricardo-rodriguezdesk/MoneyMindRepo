@@ -20,3 +20,15 @@ export function todayISO() {
   const day = String(now.getDate()).padStart(2, '0');
   return `${now.getFullYear()}-${month}-${day}`;
 }
+
+/** 'YYYY-MM' → nombre del mes en español ("octubre"); `offset` mueve meses (−1 = el anterior). */
+export function monthName(yearMonth, offset = 0) {
+  const [year, month] = yearMonth.split('-').map(Number);
+  return new Date(year, month - 1 + offset, 1).toLocaleDateString('es-MX', { month: 'long' });
+}
+
+/** 62.7 → "+62.7 %", −19.8 → "−19.8 %" */
+export function formatVariation(value) {
+  const sign = value > 0 ? '+' : value < 0 ? '−' : '';
+  return `${sign}${Math.abs(value).toFixed(1)} %`;
+}
