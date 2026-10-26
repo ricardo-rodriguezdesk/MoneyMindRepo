@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
 import { formatDate, formatMoney, monthName } from '../lib/format.js';
 import { useAuth } from '../auth.jsx';
@@ -36,6 +36,7 @@ export default function Inicio() {
     navigate('/login');
   }
 
+  const guardado = Boolean(useLocation().state?.guardado); // viene de guardar un gasto
   const sinGastos = resumen && resumen.categorias.length === 0;
 
   return (
@@ -58,6 +59,11 @@ export default function Inicio() {
       />
 
       <section className="screen-body list-body">
+        {guardado && (
+          <p className="aviso-guardado" role="status">
+            Gasto guardado
+          </p>
+        )}
         {error && (
           <div role="alert">
             <p className="form-error">No pudimos cargar tu resumen. Intenta de nuevo.</p>
