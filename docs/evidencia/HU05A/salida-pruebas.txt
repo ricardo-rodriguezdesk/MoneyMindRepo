@@ -1,0 +1,31 @@
+npm test (backend) — ejecutado el 26 oct 2026 · la IA se reemplaza por un clasificador falso (sin internet ni cuota)
+Suite: HU05A · Servicio de categorización con IA
+    ok 1 - Paso 1 · descripción y monto → categoría sugerida con su % de confianza
+    ok 2 - Paso 1b · a la IA solo le llega la descripción, el monto y los nombres de categoría
+    ok 3 - Paso 2 · el usuario corrige la categoría → se guarda la elegida y la sugerida original
+    ok 4 - Paso 3 · el usuario no corrige → la categoría sugerida queda como definitiva
+    ok 5 - Paso 3b · si el usuario elige la misma categoría que sugirió, no cuenta como corrección
+    ok 6 - Paso 4 · crear una categoría personalizada → queda disponible de inmediato
+    ok 7 - Paso 5 · nombre repetido (sin importar mayúsculas, ni contra las predefinidas) → se rechaza
+    ok 8 - Paso 6 · nombre vacío o de más de 60 caracteres → 422
+    ok 9 - Paso 7 · la IA responde una categoría que no existe → "Otros" con confianza baja
+    ok 10 - Paso 8 · descripción ambigua → confianza baja y se devuelve tal cual
+    ok 11 - Paso 9 · la IA se cae, tarda o da error → "sin sugerencia" y el gasto se guarda en "Otros"
+    ok 12 - Paso 10 · descripción vacía, de espacios o de más de 200 caracteres → 422 sin llamar a la IA
+    ok 13 - Paso 11 · texto con instrucciones ("ignora lo anterior") → solo vale una categoría de la lista
+    ok 14 - Paso 12 · cada usuario solo ve y usa sus categorías personalizadas
+    ok 15 - Paso 13 · categoría o sugerencia inválida al guardar → 422 y no se guarda
+    ok 16 - Paso 14 · sin clasificador configurado (sin llave) → "sin sugerencia" y todo sigue funcionando
+    ok 17 - Paso 15 · sin sesión iniciada → 401
+ok 1 - HU05A · Servicio de categorización con IA
+Suite: HU05A · cliente de IA (Gemini)
+    ok 1 - arma la petición con modelo, llave en el encabezado y solo los datos del gasto
+    ok 2 - error HTTP (límite de uso, llave inválida) → lanza error
+    ok 3 - respuesta que no es JSON o con formato inesperado → lanza error
+    ok 4 - la IA no responde → se corta al llegar al tiempo máximo
+ok 5 - HU05A · cliente de IA (Gemini)
+
+Resumen de toda la suite del proyecto:
+# tests 75
+# pass 75
+# fail 0
