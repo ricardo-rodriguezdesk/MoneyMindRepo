@@ -4,12 +4,13 @@ import { authRoutes } from './routes/auth.js';
 import { passwordRoutes } from './routes/password.js';
 import { gastosRoutes } from './routes/gastos.js';
 import { resumenRoutes } from './routes/resumen.js';
+import { categoriasRoutes } from './routes/categorias.js';
 
 /**
- * Construye la app de Express. Recibe sus dependencias (db, mailer)
+ * Construye la app de Express. Recibe sus dependencias (db, mailer, clasificador de IA)
  * para poder probarla sin levantar el servidor.
  */
-export function createApp({ db, mailer }) {
+export function createApp({ db, mailer, clasificador = null }) {
   const app = express();
   app.use(cors());
   app.use(express.json());
@@ -28,6 +29,7 @@ export function createApp({ db, mailer }) {
 
   app.use('/api/gastos', gastosRoutes({ db }));
   app.use('/api/resumen', resumenRoutes({ db }));
+  app.use('/api/categorias', categoriasRoutes({ db, clasificador }));
 
   // Manejo de errores no controlados
   // eslint-disable-next-line no-unused-vars
