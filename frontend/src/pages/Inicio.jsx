@@ -1,17 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../lib/api.js';
-import { formatDate, formatMoney } from '../lib/format.js';
+import { formatDate, formatMoney, monthName } from '../lib/format.js';
 import { useAuth } from '../auth.jsx';
 import BottomNav from '../components/BottomNav.jsx';
 import Hero from '../components/Hero.jsx';
 import { ArrowRightIcon, CategoryIcon, LogoutIcon } from '../components/icons.jsx';
-
-/** 'YYYY-MM' → "octubre" */
-function nombreDelMes(mes) {
-  const [year, month] = mes.split('-').map(Number);
-  return new Date(year, month - 1, 1).toLocaleDateString('es-MX', { month: 'long' });
-}
 
 // Inicio (HU06): gasto total del mes actual y su desglose por categoría, de mayor a menor.
 export default function Inicio() {
@@ -77,11 +71,14 @@ export default function Inicio() {
         {resumen && (
           <>
             <div className="resumen-total">
-              <span className="resumen-label">Gastaste en {nombreDelMes(resumen.mes)}</span>
+              <span className="resumen-label">Gastaste en {monthName(resumen.mes)}</span>
               <strong className="resumen-monto">{formatMoney(resumen.total, user?.moneda)}</strong>
               <span className="resumen-rango">
                 {user?.moneda ?? 'MXN'} · 1 al {formatDate(resumen.hasta)}
               </span>
+              <Link className="resumen-enlace" to="/reportes">
+                Comparar con {monthName(resumen.mes, -1)} ›
+              </Link>
             </div>
 
             {sinGastos && (
