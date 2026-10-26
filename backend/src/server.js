@@ -4,6 +4,9 @@ import { createMailer } from './mailer.js';
 import { config } from './config.js';
 import { crearClasificador } from './ia.js';
 
+if (config.jwtSecret.startsWith('dev-secret')) {
+  console.warn('JWT_SECRET no está definido: usa un valor propio fuera de tu computadora');
+}
 const db = createPool();
 // Sin llave de IA el servidor arranca igual: los gastos se guardan en "Otros"
 const clasificador = config.gemini.apiKey ? crearClasificador(config.gemini) : null;

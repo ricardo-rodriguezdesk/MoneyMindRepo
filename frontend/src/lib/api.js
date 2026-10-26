@@ -1,3 +1,6 @@
+// En desarrollo se usa el proxy de Vite (/api); en Vercel se define VITE_API_URL con la URL del backend
+const API_URL = import.meta.env.VITE_API_URL || '/api';
+
 const TOKEN_KEY = 'moneymind_token';
 
 export const tokenStore = {
@@ -14,7 +17,7 @@ export async function api(path, { method = 'GET', body } = {}) {
 
   let res;
   try {
-    res = await fetch(`/api${path}`, {
+    res = await fetch(`${API_URL}${path}`, {
       method,
       headers,
       body: body ? JSON.stringify(body) : undefined,

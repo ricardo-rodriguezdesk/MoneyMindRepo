@@ -6,6 +6,8 @@ export const config = {
     user: process.env.DB_USER ?? 'root',
     password: process.env.DB_PASSWORD ?? '',
     database: process.env.DB_NAME ?? 'moneymind',
+    // Bases en la nube (Aiven, TiDB, etc.) exigen conexión cifrada: DB_SSL=true
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
   },
   jwtSecret: process.env.JWT_SECRET ?? 'dev-secret-no-usar-en-produccion',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN ?? '30d',
