@@ -1,0 +1,20 @@
+npm test (backend) — ejecutado el 26 oct 2026
+Suite: HU07 · Comparar el gasto contra el mes anterior
+    ok 1 - Paso 1 · gastos en el mes actual y en el anterior → total y % de variación por categoría
+    ok 2 - Paso 2 · una categoría con el mayor cambio porcentual → se devuelve aparte
+    ok 3 - Paso 3 · sin gastos del mes anterior → sinDatos y sin comparativo
+    ok 4 - Paso 4 · verificar a mano un % de variación → coincide con el cálculo del sistema
+    ok 5 - Paso 5 · sin gastos este mes pero con gastos el mes anterior → −100 % sin errores
+    ok 6 - Paso 6 · categoría nueva (sin gasto el mes anterior) → "nueva", sin % y no compite por mayor variación
+    ok 7 - Paso 7 · empate de % → se destaca la de mayor diferencia en pesos
+    ok 8 - Paso 8 · una baja fuerte también cuenta como mayor cambio (valor absoluto)
+    ok 9 - Paso 9 · sin sesión iniciada → 401
+ok 1 - HU07 · Comparar el gasto contra el mes anterior
+Suite: HU07 · mes anterior
+    ok 1 - enero compara contra diciembre del año anterior
+ok 2 - HU07 · mes anterior
+
+Resumen de toda la suite del proyecto:
+# tests 54
+# pass 54
+# fail 0
