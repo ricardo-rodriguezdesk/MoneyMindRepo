@@ -1,5 +1,14 @@
-Consulta a la base de datos después de las pruebas manuales (26 oct 2026)
-La IA se simuló en este entorno de pruebas; la prueba real con Gemini está en la evidencia de HU05A.
+1) Base de datos de la Mac del equipo, tras las pruebas manuales con Gemini real (26 oct 2026)
+
++---------------------+--------+-------------+--------------+---------------+
+| descripcion         | final  | sugerida_ia | confianza_ia | fue_corregido |
++---------------------+--------+-------------+--------------+---------------+
+| compra de medicinas | Salud  | Salud       |        0.990 |             0 |
+| Tacos con amigos    | Comida | Comida      |        0.950 |             0 |
+| Super Walmart       | Hogar  | Comida      |        0.950 |             1 |
++---------------------+--------+-------------+--------------+---------------+
+
+2) Base de datos del entorno de pruebas con la IA simulada (casos que la IA real no produce a voluntad)
 
 +---------------------+-----------------+-----------------------+--------------+---------------+
 | descripcion         | categoria_final | categoria_sugerida_ia | confianza_ia | fue_corregido |
